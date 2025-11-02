@@ -115,7 +115,7 @@ public class MainFrame extends JFrame {
         mb.add(file);
         return mb;
     }
-
+//
     private JComponent buildStatusBar() {
         JPanel p = new JPanel(new BorderLayout());
         p.setBorder(BorderFactory.createEmptyBorder(4,8,4,8));
