@@ -95,23 +95,37 @@ public class StudentDao {
     }
 
     //Additional information can be searched by student ID.
-    public List<Student> searchByIdOrName(String q) throws SQLException {
-        String likeId = "%" + q + "%";
-        String likeName = "%" + q.toLowerCase() + "%";
-        List<Student> list = new ArrayList<>();
-        try (Connection c = DatabaseManager.getInstance().getConnection();
-             PreparedStatement ps = c.prepareStatement(
-                     "SELECT * FROM students " +
-                     "WHERE id LIKE ? OR LOWER(name) LIKE ? " +
-                     "ORDER BY id")) {
-            ps.setString(1, likeId);
-            ps.setString(2, likeName);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) list.add(map(rs));
-            }
-        }
-        return list;
+   public List<Student> searchByIdOrName(String q) throws SQLException {
+    String trimmed = q.trim();
+    if (trimmed.isEmpty()) return findAll();
+
+    String[] tokens = trimmed.toLowerCase().split("\\s+");
+
+    StringBuilder sql = new StringBuilder(
+        "SELECT * FROM students WHERE id LIKE ? OR (1=1"
+    );
+    for (int i = 0; i < tokens.length; i++) {
+        sql.append(" AND LOWER(name) LIKE ?");
     }
+    sql.append(") ORDER BY id");
+
+    List<Student> list = new ArrayList<>();
+    try (Connection c = DatabaseManager.getInstance().getConnection();
+         PreparedStatement ps = c.prepareStatement(sql.toString())) {
+
+        int idx = 1;
+        ps.setString(idx++, "%" + trimmed + "%");
+        for (String t : tokens) {
+            ps.setString(idx++, "%" + t + "%");  
+        }
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) list.add(map(rs));
+        }
+    }
+    return list;
+}
+
 
     private Student map(ResultSet rs) throws SQLException {
         return new Student(
