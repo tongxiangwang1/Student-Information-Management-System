@@ -119,6 +119,8 @@ public class MainFrame extends JFrame {
     private JComponent buildStatusBar() {
         JPanel p = new JPanel(new BorderLayout());
         p.setBorder(BorderFactory.createEmptyBorder(4,8,4,8));
+        status.setForeground(Color.DARK_GRAY); 
+        status.setFont(status.getFont().deriveFont(12f));     
         p.add(status, BorderLayout.WEST);
         return p;
     }
@@ -127,6 +129,7 @@ public class MainFrame extends JFrame {
         try {
             List<Student> all = service.listAll();
             tableModel.setData(all);
+            updateEmptyHint(all.size()); // ← 新增：无数据提示（见下）
             status.setText("Loaded " + all.size() + " students");
         } catch (SQLException ex) {
             showError("Failed to load students: " + ex.getMessage());
