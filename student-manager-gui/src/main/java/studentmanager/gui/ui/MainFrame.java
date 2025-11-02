@@ -21,7 +21,8 @@ public class MainFrame extends JFrame {
     private final JTable table = new JTable(tableModel);
     private final JTextField searchField = new JTextField();
     private final JLabel status = new JLabel("Ready");
-
+    private JScrollPane tableScroll;
+    private final JLabel emptyLabel = new JLabel("No student records found.", SwingConstants.CENTER);
     //list and details
     private final JPanel cards = new JPanel(new CardLayout());
     private static final String CARD_LIST = "list";
@@ -40,9 +41,11 @@ public class MainFrame extends JFrame {
         setJMenuBar(buildMenuBar());
 
         // Initialize list cards
-        JPanel listPanel = new JPanel(new BorderLayout());
-        listPanel.add(new JScrollPane(table), BorderLayout.CENTER);
-        cards.add(listPanel, CARD_LIST);
+    JPanel listPanel = new JPanel(new BorderLayout());
+    tableScroll = new JScrollPane(table);                         
+    listPanel.add(tableScroll, BorderLayout.CENTER);              
+    cards.add(listPanel, CARD_LIST);                              
+
 
         refresh();
         showList();
@@ -135,6 +138,15 @@ public class MainFrame extends JFrame {
             showError("Failed to load students: " + ex.getMessage());
         }
     }
+    private void updateEmptyHint(int size) {
+        if (size == 0) {
+            emptyLabel.setForeground(Color.GRAY);
+            emptyLabel.setFont(emptyLabel.getFont().deriveFont(14f));
+            tableScroll.setViewportView(emptyLabel);
+    } else {
+        tableScroll.setViewportView(table);
+        }
+    }
 
     //Search directly by student ID and name
     private void search() {
@@ -204,7 +216,7 @@ public class MainFrame extends JFrame {
             catch (Exception ex) { showError("Export failed: " + ex.getMessage()); }
         }
     }
-    // 统一按钮风格（字体、大小、前景色等）
+    
     private void styleButtons(JButton... buttons) {
     Font f = new Font("Segoe UI", Font.PLAIN, 12);
     for (JButton b : buttons) {
