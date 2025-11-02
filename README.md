@@ -5,6 +5,7 @@ programmer：Tongxiang_wang_24245808，Ricky Zhang 20125369
 A simple desktop app to create, view, search, update, and delete student records, courses, and internships.
 
 # Features
+```text
 Student information can be added, deleted, modified, and searched.
 Manage each student’s Courses & Internships
 CSV export of student list
@@ -13,11 +14,12 @@ Single-file embedded DB (Apache Derby)，auto-creates tables on first run
 Transactional save across student + courses + internships
 Input validation with clear messages
 Unit test example with in-memory Derby
-
+```  
 # Screenshot
 <img width="1231" height="797" alt="屏幕截图 2025-11-02 215047" src="https://github.com/user-attachments/assets/2cf44079-a70f-4f22-b675-2329dec4d1e7" />
 
 # Project Structure
+```text
 src/
 ├─ main/java/studentmanager/gui/
 │  ├─ APP.java                          # Main entry
@@ -46,4 +48,4 @@ src/
 │     ├─ FileImporter.java
 │     └─ ValidationUtil.java
 └─ test/java/studentmanager/gui/service/StudentServiceTest.java
-
+``` 
