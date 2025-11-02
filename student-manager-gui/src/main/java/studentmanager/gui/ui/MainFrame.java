@@ -62,19 +62,21 @@ public class MainFrame extends JFrame {
 
     private JComponent buildToolbar() {
         JPanel p = new JPanel(new BorderLayout(8,0));
-        JPanel left = new JPanel();
+        JPanel left = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         JButton btnAdd = new JButton("Add");
         JButton btnEdit = new JButton("Edit");
         JButton btnDelete = new JButton("Delete");
         JButton btnView = new JButton("View");
         JButton btnExport = new JButton("Export CSV");
         JButton btnRefresh = new JButton("Refresh");
-
+        
+        styleButtons(btnAdd,btnEdit,btnDelete,btnView,btnExport,btnRefresh);
         left.add(btnAdd); left.add(btnEdit); left.add(btnDelete); left.add(btnView); left.add(btnExport); left.add(btnRefresh);
         p.add(left, BorderLayout.WEST);
 
         JPanel right = new JPanel(new BorderLayout(4,0));
         right.add(new JLabel(" Search (ID or Name):"), BorderLayout.WEST);
+        searchField.setColumns(25);
         right.add(searchField, BorderLayout.CENTER);
         JButton btnFind = new JButton("Go");
         right.add(btnFind, BorderLayout.EAST);
@@ -199,6 +201,14 @@ public class MainFrame extends JFrame {
             catch (Exception ex) { showError("Export failed: " + ex.getMessage()); }
         }
     }
+    // 统一按钮风格（字体、大小、前景色等）
+    private void styleButtons(JButton... buttons) {
+    Font f = new Font("Segoe UI", Font.PLAIN, 12);
+    for (JButton b : buttons) {
+        b.setFont(f);
+        b.setFocusPainted(false);
+    }
+}
 
     private void importLegacy() {
         JFileChooser fc = new JFileChooser(new File("."));
