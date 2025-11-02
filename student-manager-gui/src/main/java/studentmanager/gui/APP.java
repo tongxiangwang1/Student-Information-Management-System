@@ -9,6 +9,7 @@ import studentmanager.gui.ui.MainFrame;
 
 import javax.swing.SwingUtilities;
 
+
 public class APP {
     public static void main(String[] args) {
         // Initialize Derby
