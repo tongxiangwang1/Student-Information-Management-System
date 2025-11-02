@@ -172,7 +172,7 @@ public class MainFrame extends JFrame {
             } catch (Exception ex) { showError(ex.getMessage()); }
         }
     }
-
+//
     private void editSelected() {
         Student s = tableModel.getAt(table.getSelectedRow());
         if (s == null) { showWarn("Please select a student"); return; }
